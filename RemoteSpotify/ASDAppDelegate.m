@@ -7,6 +7,10 @@
 //
 
 #import "ASDAppDelegate.h"
+#import "ASDMainViewController.h"
+#import "CocoaLibSpotify.h"
+
+#include "appkey.c"
 
 @implementation ASDAppDelegate
 
@@ -16,7 +20,30 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    // initialize spotify session w/ app key, etc.
+    NSError *error = nil;
+    [SPSession initializeSharedSessionWithApplicationKey:[NSData dataWithBytes: &g_appkey length: g_appkey_size] userAgent:@"com.alexsoftwaredevelopment.TestEmptyApp" loadingPolicy:SPAsyncLoadingManual error:&error];
+    
+    if (error != nil) {
+        NSLog(@"CocoaLibSpotify init failed: %@", error);
+    }
+    
+    self.mainViewController = [[ASDMainViewController alloc] init];
+    self.window.rootViewController = self.mainViewController;
+    
+    [self performSelector:@selector(showLogin) withObject:nil afterDelay:0.0];
+    
     return YES;
+}
+
+- (void)showLogin
+{
+    NSLog(@"Entered showLogin method");
+    SPLoginViewController *controller = [SPLoginViewController loginControllerForSession:[SPSession sharedSession]];
+    controller.allowsCancel = NO;
+    
+    [self.mainViewController presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -44,6 +71,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[SPSession sharedSession] logout: ^{}];
 }
 
 @end
