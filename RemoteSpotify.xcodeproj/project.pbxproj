@@ -64,6 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA1E469118A6D26700B75BD4 /* ASDPlaybackManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASDPlaybackManager.h; sourceTree = "<group>"; };
 		FAE2B17418A1EEF50098A631 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FAE2B17618A1EEFE0098A631 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FAE2B17818A1EF070098A631 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
@@ -177,6 +178,7 @@
 				FAE2B18718A1F02B0098A631 /* ASDMainViewController.m */,
 				FAE2B18818A1F02B0098A631 /* ASDMainViewController.xib */,
 				FAE2B18B18A1F1940098A631 /* appkey.c */,
+				FA1E469118A6D26700B75BD4 /* ASDPlaybackManager.h */,
 			);
 			path = RemoteSpotify;
 			sourceTree = "<group>";
@@ -268,6 +270,13 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Alex Schimp";
 				TargetAttributes = {
+					FAF9A30218A0A8B400FB81ED = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
 					FAF9A31D18A0A8B400FB81ED = {
 						TestTargetID = FAF9A30218A0A8B400FB81ED;
 					};

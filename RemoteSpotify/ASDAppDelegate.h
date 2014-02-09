@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASDMainViewController.h"
+#import "ASDPlaybackManager.h"
+#import "CocoaLibSpotify.h"
 
-@interface ASDAppDelegate : UIResponder <UIApplicationDelegate>
+@interface ASDAppDelegate : UIResponder <UIApplicationDelegate, ASDPlaybackManager, SPLoginViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) UIViewController *mainViewController;
+@property (strong, nonatomic) ASDMainViewController *mainViewController;
 
 @end

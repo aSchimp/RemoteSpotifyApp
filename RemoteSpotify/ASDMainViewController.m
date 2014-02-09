@@ -7,15 +7,16 @@
 //
 
 #import "ASDMainViewController.h"
+#import "ASDAppDelegate.h"
 #import "CocoaLibSpotify.h"
 
 @interface ASDMainViewController ()
 
+@property (strong, nonatomic) NSArray *playlists;
+
 @end
 
 @implementation ASDMainViewController
-
-@synthesize playbackManager = _playbackManager;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,7 +31,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
+    
+    [self.playbackManager addObserver:self forKeyPath:@"currentTrack.name" options:0 context:nil];
+    [self.playbackManager addObserver:self forKeyPath:@"currentTrack.duration" options:0 context:nil];
+    [self.playbackManager addObserver:self forKeyPath:@"trackPosition" options:0 context:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,31 +43,67 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)playTrack:(id)sender {
-    if (self.trackURIField.text.length > 0) {
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"currentTrack.name"]) {
+        self.trackNameLabel.text = self.playbackManager.currentTrack.name;
+    }
+    else if ([keyPath isEqualToString:@"currentTrack.duration"]) {
+        self.trackPositionSlider.maximumValue = self.playbackManager.currentTrack.duration;
+    }
+    else if ([keyPath isEqualToString:@"trackPosition"]) {
+        if (!self.trackPositionSlider.highlighted)
+            self.trackPositionSlider.value = self.playbackManager.trackPosition;
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.playlists.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"Cell Identifier";
+    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    SPPlaylist *playlist = [self.playlists objectAtIndex:[indexPath row]];
+    [cell.textLabel setText:[playlist name]];
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    SPPlaylist *playlist = [self.playlists objectAtIndex:[indexPath row]];
+    [self.playbackManager playPlaylist:playlist];
+}
+
+- (IBAction)playTrackClick:(id)sender {
+    if (self.trackURIField.text.length > 0){
         NSURL *trackUrl = [NSURL URLWithString:self.trackURIField.text];
-        [[SPSession sharedSession] trackForURL:trackUrl callback:^(SPTrack *track) {
-            if (track != nil) {
-                [SPAsyncLoading waitUntilLoaded:track timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
-                    [self.playbackManager playTrack:track callback:^(NSError *error) {
-                        if (error) {
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Play Track" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                            
-                            [alert show];
-                        }
-                        else {
-                            NSLog(@"Callback success");
-                        }
-                    }];
-                }];
-            }
-        }];
-        
+        [self.playbackManager playTrack:trackUrl];
+        [self.view endEditing:YES];
         return;
     }
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Play Track" message:@"Please enter a track url." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     
     [alert show];
+}
+
+- (IBAction)trackPositionSliderChanged:(id)sender {
+    [self.playbackManager updateTrackPosition:self.trackPositionSlider.value];
+}
+
+- (void)refreshView {
+    SPPlaylistContainer *playlistContainer = [SPSession sharedSession].userPlaylists;
+    [SPAsyncLoading waitUntilLoaded:playlistContainer timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+        self.playlists = [playlistContainer flattenedPlaylists];
+        [SPAsyncLoading waitUntilLoaded:self.playlists timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+            [self.playlistTableView reloadData];
+        }];
+    }];
 }
 @end

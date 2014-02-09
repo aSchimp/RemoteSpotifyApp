@@ -7,16 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASDPlaybackManager.h"
 #import "CocoaLibSpotify.h"
 
-@interface ASDMainViewController : UIViewController {
-    SPPlaybackManager *_playbackManager;
-}
+@interface ASDMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITextField *trackURIField;
-@property (strong, nonatomic) SPPlaybackManager *playbackManager;
+@property (strong, nonatomic) IBOutlet UILabel *trackNameLabel;
+@property (strong, nonatomic) IBOutlet UISlider *trackPositionSlider;
+@property (strong, nonatomic) IBOutlet UITableView *playlistTableView;
 
-- (IBAction)playTrack:(id)sender;
+@property (strong, nonatomic) NSObject <ASDPlaybackManager> *playbackManager;
 
+- (IBAction)playTrackClick:(id)sender;
+- (IBAction)trackPositionSliderChanged:(id)sender;
+
+- (void)refreshView;
 
 @end

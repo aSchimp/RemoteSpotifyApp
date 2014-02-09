@@ -7,10 +7,15 @@
 //
 
 #import "ASDAppDelegate.h"
-#import "ASDMainViewController.h"
-#import "CocoaLibSpotify.h"
 
 #include "appkey.c"
+
+@interface ASDAppDelegate ()
+@property (strong, nonatomic) SPPlaybackManager *playbackManager;
+@property (readwrite, strong, nonatomic) SPTrack *currentTrack;
+@property (readwrite, assign, nonatomic) NSTimeInterval trackPosition;
+@property (strong, nonatomic) SPPlaylist *currentPlaylist;
+@end
 
 @implementation ASDAppDelegate
 
@@ -29,12 +34,30 @@
         NSLog(@"CocoaLibSpotify init failed: %@", error);
     }
     
+    // initialize playbackManager
+    self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
+    
+    // initialize main view
     self.mainViewController = [[ASDMainViewController alloc] init];
+    self.mainViewController.playbackManager = self;
     self.window.rootViewController = self.mainViewController;
     
+    [self addObserver:self forKeyPath:@"playbackManager.trackPosition" options:0 context:nil];
+    
+    // show login screen
     [self performSelector:@selector(showLogin) withObject:nil afterDelay:0.0];
     
     return YES;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"playbackManager.trackPosition"]) {
+        self.trackPosition = self.playbackManager.trackPosition;
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 - (void)showLogin
@@ -42,8 +65,47 @@
     NSLog(@"Entered showLogin method");
     SPLoginViewController *controller = [SPLoginViewController loginControllerForSession:[SPSession sharedSession]];
     controller.allowsCancel = NO;
+    controller.loginDelegate = self;
     
     [self.mainViewController presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)playTrack:(NSURL *)trackUrl {
+    [[SPSession sharedSession] trackForURL:trackUrl callback:^(SPTrack *track) {
+        if (track != nil) {
+            [SPAsyncLoading waitUntilLoaded:track timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+                [self.playbackManager playTrack:track callback:^(NSError *error) {
+                    if (error) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Play Track" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                        
+                        [alert show];
+                    }
+                    else {
+                        self.currentTrack = track;
+                    }
+                }];
+            }];
+        }
+    }];
+}
+
+- (void)updateTrackPosition:(NSTimeInterval) position {
+    [self.playbackManager seekToTrackPosition:position];
+}
+
+- (void)playPlaylist:(SPPlaylist *)playlist {
+    [SPAsyncLoading waitUntilLoaded:playlist timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
+        self.currentPlaylist = playlist;
+        SPPlaylistItem *item = [playlist.items objectAtIndex:0];
+        [self playTrack:[item itemURL]];
+    }];
+}
+
+- (void)loginViewController:(SPLoginViewController *)controller didCompleteSuccessfully:(BOOL)didLogin {
+    // called after Spotify login
+    if (didLogin) {
+        [self.mainViewController refreshView];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
