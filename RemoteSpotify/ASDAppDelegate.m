@@ -7,6 +7,7 @@
 //
 
 #import "ASDAppDelegate.h"
+#import "NSMutableArray_Shuffling.h"
 
 #include "appkey.c"
 
@@ -15,6 +16,8 @@
 @property (readwrite, strong, nonatomic) SPTrack *currentTrack;
 @property (readwrite, assign, nonatomic) NSTimeInterval trackPosition;
 @property (strong, nonatomic) SPPlaylist *currentPlaylist;
+@property (strong, nonatomic) NSMutableArray *playlistTrackQueue;
+@property (assign, nonatomic) int playlistTrackQueueIndex;
 @end
 
 @implementation ASDAppDelegate
@@ -28,7 +31,7 @@
     
     // initialize spotify session w/ app key, etc.
     NSError *error = nil;
-    [SPSession initializeSharedSessionWithApplicationKey:[NSData dataWithBytes: &g_appkey length: g_appkey_size] userAgent:@"com.alexsoftwaredevelopment.TestEmptyApp" loadingPolicy:SPAsyncLoadingManual error:&error];
+    [SPSession initializeSharedSessionWithApplicationKey:[NSData dataWithBytes: &g_appkey length: g_appkey_size] userAgent:@"com.alexsoftwaredevelopment.RemoteSpotify" loadingPolicy:SPAsyncLoadingManual error:&error];
     
     if (error != nil) {
         NSLog(@"CocoaLibSpotify init failed: %@", error);
@@ -43,6 +46,7 @@
     self.window.rootViewController = self.mainViewController;
     
     [self addObserver:self forKeyPath:@"playbackManager.trackPosition" options:0 context:nil];
+    [self addObserver:self forKeyPath:@"playbackManager.currentTrack" options:0 context:nil];
     
     // show login screen
     [self performSelector:@selector(showLogin) withObject:nil afterDelay:0.0];
@@ -54,6 +58,12 @@
 {
     if ([keyPath isEqualToString:@"playbackManager.trackPosition"]) {
         self.trackPosition = self.playbackManager.trackPosition;
+    }
+    else if ([keyPath isEqualToString:@"playbackManager.currentTrack"]) {
+        // current track has ended... play the next track
+        if (self.playbackManager.currentTrack == nil) {
+            [self nextTrack];
+        }
     }
     else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -96,9 +106,25 @@
 - (void)playPlaylist:(SPPlaylist *)playlist {
     [SPAsyncLoading waitUntilLoaded:playlist timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
         self.currentPlaylist = playlist;
-        SPPlaylistItem *item = [playlist.items objectAtIndex:0];
+        self.playlistTrackQueue = [NSMutableArray arrayWithArray:[playlist items]];
+        [self.playlistTrackQueue shuffle];
+        self.playlistTrackQueueIndex = 0;
+        SPPlaylistItem *item = [self.playlistTrackQueue objectAtIndex:0];
         [self playTrack:[item itemURL]];
     }];
+}
+
+- (void)nextTrack {
+    if (self.currentPlaylist != nil && self.playlistTrackQueue != nil
+        && self.playlistTrackQueueIndex < [self.playlistTrackQueue count]) {
+        self.playlistTrackQueueIndex++;
+        SPPlaylistItem *item = [self.playlistTrackQueue objectAtIndex:self.playlistTrackQueueIndex];
+        [self playTrack:[item itemURL]];
+    }
+}
+
+- (void)pausePlayback {
+    [self.playbackManager setIsPlaying:NO];
 }
 
 - (void)loginViewController:(SPLoginViewController *)controller didCompleteSuccessfully:(BOOL)didLogin {

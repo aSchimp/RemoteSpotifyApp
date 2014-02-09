@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA1E469618A81CF900B75BD4 /* NSMutableArray_QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1E469518A81CF900B75BD4 /* NSMutableArray_QueueAdditions.m */; };
+		FA1E469918A821CF00B75BD4 /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */; };
 		FAE2B17318A1EEC00098A631 /* libCocoaLibSpotify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF9A33B18A0A92700FB81ED /* libCocoaLibSpotify.a */; };
 		FAE2B17518A1EEF50098A631 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE2B17418A1EEF50098A631 /* SystemConfiguration.framework */; };
 		FAE2B17718A1EEFE0098A631 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE2B17618A1EEFE0098A631 /* CFNetwork.framework */; };
@@ -65,6 +67,10 @@
 
 /* Begin PBXFileReference section */
 		FA1E469118A6D26700B75BD4 /* ASDPlaybackManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASDPlaybackManager.h; sourceTree = "<group>"; };
+		FA1E469418A81C7600B75BD4 /* NSMutableArray_QueueAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSMutableArray_QueueAdditions.h; sourceTree = "<group>"; };
+		FA1E469518A81CF900B75BD4 /* NSMutableArray_QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArray_QueueAdditions.m; sourceTree = "<group>"; };
+		FA1E469718A821CF00B75BD4 /* NSMutableArray_Shuffling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableArray_Shuffling.h; sourceTree = "<group>"; };
+		FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArray_Shuffling.m; sourceTree = "<group>"; };
 		FAE2B17418A1EEF50098A631 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FAE2B17618A1EEFE0098A631 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FAE2B17818A1EF070098A631 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
@@ -128,6 +134,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA1E469318A81C1900B75BD4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FA1E469418A81C7600B75BD4 /* NSMutableArray_QueueAdditions.h */,
+				FA1E469518A81CF900B75BD4 /* NSMutableArray_QueueAdditions.m */,
+				FA1E469718A821CF00B75BD4 /* NSMutableArray_Shuffling.h */,
+				FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		FAF9A2FA18A0A8B400FB81ED = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +187,7 @@
 		FAF9A30C18A0A8B400FB81ED /* RemoteSpotify */ = {
 			isa = PBXGroup;
 			children = (
+				FA1E469318A81C1900B75BD4 /* Extensions */,
 				FAF9A31518A0A8B400FB81ED /* ASDAppDelegate.h */,
 				FAF9A31618A0A8B400FB81ED /* ASDAppDelegate.m */,
 				FAF9A31818A0A8B400FB81ED /* Images.xcassets */,
@@ -353,6 +371,8 @@
 				FAF9A31318A0A8B400FB81ED /* main.m in Sources */,
 				FAE2B18918A1F02B0098A631 /* ASDMainViewController.m in Sources */,
 				FAF9A31718A0A8B400FB81ED /* ASDAppDelegate.m in Sources */,
+				FA1E469618A81CF900B75BD4 /* NSMutableArray_QueueAdditions.m in Sources */,
+				FA1E469918A821CF00B75BD4 /* NSMutableArray_Shuffling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

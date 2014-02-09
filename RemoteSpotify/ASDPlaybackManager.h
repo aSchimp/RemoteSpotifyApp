@@ -17,5 +17,6 @@
 - (void)playTrack:(NSURL *)trackUrl;
 - (void)updateTrackPosition:(NSTimeInterval) position;
 - (void)playPlaylist:(SPPlaylist *)playlist;
+- (void)pausePlayback;
 
 @end
