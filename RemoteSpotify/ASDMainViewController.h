@@ -12,15 +12,15 @@
 
 @interface ASDMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) IBOutlet UITextField *trackURIField;
 @property (strong, nonatomic) IBOutlet UILabel *trackNameLabel;
 @property (strong, nonatomic) IBOutlet UISlider *trackPositionSlider;
 @property (strong, nonatomic) IBOutlet UITableView *playlistTableView;
+@property (strong, nonatomic) IBOutlet UIButton *playPauseButton;
 
 @property (strong, nonatomic) NSObject <ASDPlaybackManager> *playbackManager;
 
-- (IBAction)playTrackClick:(id)sender;
 - (IBAction)trackPositionSliderChanged:(id)sender;
+- (IBAction)playPauseClick:(id)sender;
 
 - (void)refreshView;
 

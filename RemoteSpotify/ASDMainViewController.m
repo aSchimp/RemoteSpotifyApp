@@ -35,6 +35,7 @@
     [self.playbackManager addObserver:self forKeyPath:@"currentTrack.name" options:0 context:nil];
     [self.playbackManager addObserver:self forKeyPath:@"currentTrack.duration" options:0 context:nil];
     [self.playbackManager addObserver:self forKeyPath:@"trackPosition" options:0 context:nil];
+    [self.playbackManager addObserver:self forKeyPath:@"isPlaying" options:0 context:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,6 +55,14 @@
     else if ([keyPath isEqualToString:@"trackPosition"]) {
         if (!self.trackPositionSlider.highlighted)
             self.trackPositionSlider.value = self.playbackManager.trackPosition;
+    }
+    else if ([keyPath isEqualToString:@"isPlaying"]) {
+        if ([self.playbackManager isPlaying] == YES) {
+            [self.playPauseButton setTitle:@"Pause" forState:UIControlStateNormal];
+        }
+        else {
+            [self.playPauseButton setTitle:@"Play" forState:UIControlStateNormal];
+        }
     }
     else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -80,21 +89,17 @@
     [self.playbackManager playPlaylist:playlist];
 }
 
-- (IBAction)playTrackClick:(id)sender {
-    if (self.trackURIField.text.length > 0){
-        NSURL *trackUrl = [NSURL URLWithString:self.trackURIField.text];
-        [self.playbackManager playTrack:trackUrl];
-        [self.view endEditing:YES];
-        return;
-    }
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Play Track" message:@"Please enter a track url." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    
-    [alert show];
-}
-
 - (IBAction)trackPositionSliderChanged:(id)sender {
     [self.playbackManager updateTrackPosition:self.trackPositionSlider.value];
+}
+
+- (IBAction)playPauseClick:(id)sender {
+    if ([self.playbackManager isPlaying] == YES) {
+        [self.playbackManager pausePlayback];
+    }
+    else {
+        [self.playbackManager resumePlayback];
+    }
 }
 
 - (void)refreshView {

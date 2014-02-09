@@ -13,10 +13,12 @@
 
 @property (readonly, strong, nonatomic) SPTrack *currentTrack;
 @property (readonly, assign, nonatomic) NSTimeInterval trackPosition;
+@property (readonly, assign, nonatomic) BOOL isPlaying;
 
 - (void)playTrack:(NSURL *)trackUrl;
 - (void)updateTrackPosition:(NSTimeInterval) position;
 - (void)playPlaylist:(SPPlaylist *)playlist;
 - (void)pausePlayback;
+- (void)resumePlayback;
 
 @end

@@ -15,6 +15,7 @@
 @property (strong, nonatomic) SPPlaybackManager *playbackManager;
 @property (readwrite, strong, nonatomic) SPTrack *currentTrack;
 @property (readwrite, assign, nonatomic) NSTimeInterval trackPosition;
+@property (readwrite, assign, nonatomic) BOOL isPlaying;
 @property (strong, nonatomic) SPPlaylist *currentPlaylist;
 @property (strong, nonatomic) NSMutableArray *playlistTrackQueue;
 @property (assign, nonatomic) int playlistTrackQueueIndex;
@@ -24,6 +25,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.isPlaying = NO;
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
@@ -47,6 +50,7 @@
     
     [self addObserver:self forKeyPath:@"playbackManager.trackPosition" options:0 context:nil];
     [self addObserver:self forKeyPath:@"playbackManager.currentTrack" options:0 context:nil];
+    [self addObserver:self forKeyPath:@"playbackManager.isPlaying" options:0 context:nil];
     
     // show login screen
     [self performSelector:@selector(showLogin) withObject:nil afterDelay:0.0];
@@ -64,6 +68,9 @@
         if (self.playbackManager.currentTrack == nil) {
             [self nextTrack];
         }
+    }
+    else if ([keyPath isEqualToString:@"playbackManager.isPlaying"]) {
+        self.isPlaying = [self.playbackManager isPlaying];
     }
     else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -125,6 +132,10 @@
 
 - (void)pausePlayback {
     [self.playbackManager setIsPlaying:NO];
+}
+
+- (void)resumePlayback {
+    [self.playbackManager setIsPlaying:YES];
 }
 
 - (void)loginViewController:(SPLoginViewController *)controller didCompleteSuccessfully:(BOOL)didLogin {
