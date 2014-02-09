@@ -102,6 +102,14 @@
     }
 }
 
+- (IBAction)prevClick:(id)sender {
+    [self.playbackManager prevTrack];
+}
+
+- (IBAction)nextClick:(id)sender {
+    [self.playbackManager nextTrack];
+}
+
 - (void)refreshView {
     SPPlaylistContainer *playlistContainer = [SPSession sharedSession].userPlaylists;
     [SPAsyncLoading waitUntilLoaded:playlistContainer timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {

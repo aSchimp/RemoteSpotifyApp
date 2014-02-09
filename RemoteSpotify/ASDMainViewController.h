@@ -21,6 +21,8 @@
 
 - (IBAction)trackPositionSliderChanged:(id)sender;
 - (IBAction)playPauseClick:(id)sender;
+- (IBAction)prevClick:(id)sender;
+- (IBAction)nextClick:(id)sender;
 
 - (void)refreshView;
 

@@ -130,6 +130,15 @@
     }
 }
 
+- (void)prevTrack {
+    if (self.currentPlaylist != nil && self.playlistTrackQueue != nil
+        && self.playlistTrackQueueIndex > 0 && [self.playlistTrackQueue count] > 0) {
+        self.playlistTrackQueueIndex--;
+        SPPlaylistItem *item = [self.playlistTrackQueue objectAtIndex:self.playlistTrackQueueIndex];
+        [self playTrack:[item itemURL]];
+    }
+}
+
 - (void)pausePlayback {
     [self.playbackManager setIsPlaying:NO];
 }

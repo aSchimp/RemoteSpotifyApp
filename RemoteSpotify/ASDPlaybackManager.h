@@ -20,5 +20,7 @@
 - (void)playPlaylist:(SPPlaylist *)playlist;
 - (void)pausePlayback;
 - (void)resumePlayback;
+- (void)nextTrack;
+- (void)prevTrack;
 
 @end
