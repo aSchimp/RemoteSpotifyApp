@@ -81,7 +81,42 @@
     SPPlaylist *playlist = [self.playlists objectAtIndex:[indexPath row]];
     [cell.textLabel setText:[playlist name]];
     
+    // add the switch to toggle markedForOfflinePlayback on the playlist, and a download progress indicator
+    UIView *accessoryView = [[UIView alloc] init];
+    
+    UISwitch *offlineSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+    offlineSwitch.on = playlist.markedForOfflinePlayback;
+    [offlineSwitch addTarget:self action:@selector(offlineSwitchChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    UILabel *progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(offlineSwitch.frame.size.width + 5.0f, 0.0f, 65.0f, offlineSwitch.frame.size.height)];
+    if (playlist.markedForOfflinePlayback) {
+        if (playlist.offlineStatus == SP_PLAYLIST_OFFLINE_STATUS_YES) {
+            [progressLabel setText:@"Done"];
+        }
+        else if (playlist.offlineStatus == SP_PLAYLIST_OFFLINE_STATUS_WAITING) {
+            [progressLabel setText:@"Queue"];
+        }
+        else if (playlist.offlineStatus == SP_PLAYLIST_OFFLINE_STATUS_DOWNLOADING) {
+            [progressLabel setText:[NSString stringWithFormat:@"%.02f%%", playlist.offlineDownloadProgress * 100.0f]];
+        }
+    }
+    
+    
+    accessoryView.frame = CGRectMake(0.0f, 0.0f, offlineSwitch.frame.size.width + 70.0f, offlineSwitch.frame.size.height);
+    [accessoryView addSubview:offlineSwitch];
+    [accessoryView addSubview:progressLabel];
+    cell.accessoryView = accessoryView;
+    
     return cell;
+}
+
+- (void)offlineSwitchChanged:(id)sender {
+    UISwitch *theSwitch = (UISwitch*)sender;
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.playlistTableView];
+    NSIndexPath *pathToCell = [self.playlistTableView indexPathForRowAtPoint:buttonPosition];
+    SPPlaylist *playlist = [self.playlists objectAtIndex:[pathToCell row]];
+    playlist.markedForOfflinePlayback = theSwitch.on;
+    NSLog(@"Offline status change to %@ for %@", theSwitch.on ? @"YES" : @"NO", [playlist name]);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
