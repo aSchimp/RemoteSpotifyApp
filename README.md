@@ -6,7 +6,7 @@ A custom Spotify iOS app that allows remote control commands to be taken from a 
 The app currently has the following features:
  - Play tracks from user playlists randomly
  - Integration with the "Now Playing" section on the lock screen and ability to receive remote control events from the lock screen.
- - Offline playback works sometimes - there is an issue with the Spotify cache being corrupted sometimes.
+ - Offline playback works sometimes - there is an issue with the Spotify cache being corrupted at times.
  
 Setup
 ===============
