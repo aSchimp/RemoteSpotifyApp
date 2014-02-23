@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FA1E469918A821CF00B75BD4 /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */; };
-		FAE2B17318A1EEC00098A631 /* libCocoaLibSpotify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF9A33B18A0A92700FB81ED /* libCocoaLibSpotify.a */; };
+		FA892AAF18B993800037709A /* libCocoaLibSpotify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA892AAA18B992C90037709A /* libCocoaLibSpotify.a */; };
 		FAE2B17518A1EEF50098A631 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE2B17418A1EEF50098A631 /* SystemConfiguration.framework */; };
 		FAE2B17718A1EEFE0098A631 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE2B17618A1EEFE0098A631 /* CFNetwork.framework */; };
 		FAE2B17918A1EF070098A631 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE2B17818A1EF070098A631 /* libstdc++.dylib */; };
@@ -32,7 +32,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		FAE2B18218A1EF470098A631 /* PBXContainerItemProxy */ = {
+		FA892AA918B992C90037709A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FAF9A33518A0A92600FB81ED /* CocoaLibSpotify iOS Library.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 50AF49DC1439CBFE00E4A5EF;
+			remoteInfo = CocoaLibSpotify;
+		};
+		FA892AAB18B992C90037709A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FAF9A33518A0A92600FB81ED /* CocoaLibSpotify iOS Library.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 50D4F52B156BCDE800E237DD;
+			remoteInfo = CocoaLSTests;
+		};
+		FA892AAD18B993730037709A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FAF9A33518A0A92600FB81ED /* CocoaLibSpotify iOS Library.xcodeproj */;
 			proxyType = 1;
@@ -45,20 +59,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = FAF9A30218A0A8B400FB81ED;
 			remoteInfo = RemoteSpotify;
-		};
-		FAF9A33A18A0A92700FB81ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FAF9A33518A0A92600FB81ED /* CocoaLibSpotify iOS Library.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 50AF49DC1439CBFE00E4A5EF;
-			remoteInfo = CocoaLibSpotify;
-		};
-		FAF9A33C18A0A92700FB81ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FAF9A33518A0A92600FB81ED /* CocoaLibSpotify iOS Library.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 50D4F52B156BCDE800E237DD;
-			remoteInfo = CocoaLSTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -73,7 +73,7 @@
 		FAE2B17C18A1EF160098A631 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		FAE2B17E18A1EF1F0098A631 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		FAE2B18018A1EF280098A631 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		FAE2B18418A1EF6E0098A631 /* SPLoginResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SPLoginResources.bundle; path = "../../cocoalibspotify/src/iOS Library/SPLoginResources.bundle"; sourceTree = "<group>"; };
+		FAE2B18418A1EF6E0098A631 /* SPLoginResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SPLoginResources.bundle; path = "cocoalibspotify/iOS Library/SPLoginResources.bundle"; sourceTree = "<group>"; };
 		FAE2B18618A1F02B0098A631 /* ASDMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASDMainViewController.h; sourceTree = "<group>"; };
 		FAE2B18718A1F02B0098A631 /* ASDMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASDMainViewController.m; sourceTree = "<group>"; };
 		FAE2B18818A1F02B0098A631 /* ASDMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ASDMainViewController.xib; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 		FAF9A31818A0A8B400FB81ED /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FAF9A31E18A0A8B400FB81ED /* RemoteSpotifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemoteSpotifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAF9A31F18A0A8B400FB81ED /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		FAF9A33518A0A92600FB81ED /* CocoaLibSpotify iOS Library.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "CocoaLibSpotify iOS Library.xcodeproj"; path = "../../cocoalibspotify/src/iOS Library/CocoaLibSpotify iOS Library.xcodeproj"; sourceTree = "<group>"; };
+		FAF9A33518A0A92600FB81ED /* CocoaLibSpotify iOS Library.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "CocoaLibSpotify iOS Library.xcodeproj"; path = "cocoalibspotify/iOS Library/CocoaLibSpotify iOS Library.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,7 +109,7 @@
 				FAF9A30918A0A8B400FB81ED /* CoreGraphics.framework in Frameworks */,
 				FAF9A30B18A0A8B400FB81ED /* UIKit.framework in Frameworks */,
 				FAF9A30718A0A8B400FB81ED /* Foundation.framework in Frameworks */,
-				FAE2B17318A1EEC00098A631 /* libCocoaLibSpotify.a in Frameworks */,
+				FA892AAF18B993800037709A /* libCocoaLibSpotify.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +133,15 @@
 				FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		FA892AA518B992C90037709A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA892AAA18B992C90037709A /* libCocoaLibSpotify.a */,
+				FA892AAC18B992C90037709A /* CocoaLSTests.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		FAF9A2FA18A0A8B400FB81ED = {
@@ -201,15 +210,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FAF9A33618A0A92600FB81ED /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				FAF9A33B18A0A92700FB81ED /* libCocoaLibSpotify.a */,
-				FAF9A33D18A0A92700FB81ED /* CocoaLSTests.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -224,7 +224,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				FAE2B18318A1EF470098A631 /* PBXTargetDependency */,
+				FA892AAE18B993730037709A /* PBXTargetDependency */,
 			);
 			name = RemoteSpotify;
 			productName = RemoteSpotify;
@@ -283,7 +283,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = FAF9A33618A0A92600FB81ED /* Products */;
+					ProductGroup = FA892AA518B992C90037709A /* Products */;
 					ProjectRef = FAF9A33518A0A92600FB81ED /* CocoaLibSpotify iOS Library.xcodeproj */;
 				},
 			);
@@ -296,18 +296,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		FAF9A33B18A0A92700FB81ED /* libCocoaLibSpotify.a */ = {
+		FA892AAA18B992C90037709A /* libCocoaLibSpotify.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libCocoaLibSpotify.a;
-			remoteRef = FAF9A33A18A0A92700FB81ED /* PBXContainerItemProxy */;
+			remoteRef = FA892AA918B992C90037709A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FAF9A33D18A0A92700FB81ED /* CocoaLSTests.app */ = {
+		FA892AAC18B992C90037709A /* CocoaLSTests.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = CocoaLSTests.app;
-			remoteRef = FAF9A33C18A0A92700FB81ED /* PBXContainerItemProxy */;
+			remoteRef = FA892AAB18B992C90037709A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -355,10 +355,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		FAE2B18318A1EF470098A631 /* PBXTargetDependency */ = {
+		FA892AAE18B993730037709A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CocoaLibSpotify;
-			targetProxy = FAE2B18218A1EF470098A631 /* PBXContainerItemProxy */;
+			targetProxy = FA892AAD18B993730037709A /* PBXContainerItemProxy */;
 		};
 		FAF9A32418A0A8B400FB81ED /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
