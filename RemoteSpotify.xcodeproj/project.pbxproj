@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA1E469618A81CF900B75BD4 /* NSMutableArray_QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1E469518A81CF900B75BD4 /* NSMutableArray_QueueAdditions.m */; };
 		FA1E469918A821CF00B75BD4 /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */; };
 		FAE2B17318A1EEC00098A631 /* libCocoaLibSpotify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF9A33B18A0A92700FB81ED /* libCocoaLibSpotify.a */; };
 		FAE2B17518A1EEF50098A631 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE2B17418A1EEF50098A631 /* SystemConfiguration.framework */; };
@@ -30,8 +29,6 @@
 		FAF9A32018A0A8B400FB81ED /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF9A31F18A0A8B400FB81ED /* XCTest.framework */; };
 		FAF9A32118A0A8B400FB81ED /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF9A30618A0A8B400FB81ED /* Foundation.framework */; };
 		FAF9A32218A0A8B400FB81ED /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF9A30A18A0A8B400FB81ED /* UIKit.framework */; };
-		FAF9A32A18A0A8B400FB81ED /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FAF9A32818A0A8B400FB81ED /* InfoPlist.strings */; };
-		FAF9A32C18A0A8B400FB81ED /* RemoteSpotifyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF9A32B18A0A8B400FB81ED /* RemoteSpotifyTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,8 +64,6 @@
 
 /* Begin PBXFileReference section */
 		FA1E469118A6D26700B75BD4 /* ASDPlaybackManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASDPlaybackManager.h; sourceTree = "<group>"; };
-		FA1E469418A81C7600B75BD4 /* NSMutableArray_QueueAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSMutableArray_QueueAdditions.h; sourceTree = "<group>"; };
-		FA1E469518A81CF900B75BD4 /* NSMutableArray_QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArray_QueueAdditions.m; sourceTree = "<group>"; };
 		FA1E469718A821CF00B75BD4 /* NSMutableArray_Shuffling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableArray_Shuffling.h; sourceTree = "<group>"; };
 		FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArray_Shuffling.m; sourceTree = "<group>"; };
 		FAE2B17418A1EEF50098A631 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -96,9 +91,6 @@
 		FAF9A31818A0A8B400FB81ED /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FAF9A31E18A0A8B400FB81ED /* RemoteSpotifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemoteSpotifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAF9A31F18A0A8B400FB81ED /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		FAF9A32718A0A8B400FB81ED /* RemoteSpotifyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RemoteSpotifyTests-Info.plist"; sourceTree = "<group>"; };
-		FAF9A32918A0A8B400FB81ED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FAF9A32B18A0A8B400FB81ED /* RemoteSpotifyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemoteSpotifyTests.m; sourceTree = "<group>"; };
 		FAF9A33518A0A92600FB81ED /* CocoaLibSpotify iOS Library.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "CocoaLibSpotify iOS Library.xcodeproj"; path = "../../cocoalibspotify/src/iOS Library/CocoaLibSpotify iOS Library.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,8 +129,6 @@
 		FA1E469318A81C1900B75BD4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				FA1E469418A81C7600B75BD4 /* NSMutableArray_QueueAdditions.h */,
-				FA1E469518A81CF900B75BD4 /* NSMutableArray_QueueAdditions.m */,
 				FA1E469718A821CF00B75BD4 /* NSMutableArray_Shuffling.h */,
 				FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */,
 			);
@@ -150,7 +140,6 @@
 			children = (
 				FAE2B18418A1EF6E0098A631 /* SPLoginResources.bundle */,
 				FAF9A30C18A0A8B400FB81ED /* RemoteSpotify */,
-				FAF9A32518A0A8B400FB81ED /* RemoteSpotifyTests */,
 				FAF9A30518A0A8B400FB81ED /* Frameworks */,
 				FAF9A30418A0A8B400FB81ED /* Products */,
 				FAF9A33518A0A92600FB81ED /* CocoaLibSpotify iOS Library.xcodeproj */,
@@ -208,24 +197,6 @@
 				FAF9A30F18A0A8B400FB81ED /* InfoPlist.strings */,
 				FAF9A31218A0A8B400FB81ED /* main.m */,
 				FAF9A31418A0A8B400FB81ED /* RemoteSpotify-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		FAF9A32518A0A8B400FB81ED /* RemoteSpotifyTests */ = {
-			isa = PBXGroup;
-			children = (
-				FAF9A32B18A0A8B400FB81ED /* RemoteSpotifyTests.m */,
-				FAF9A32618A0A8B400FB81ED /* Supporting Files */,
-			);
-			path = RemoteSpotifyTests;
-			sourceTree = "<group>";
-		};
-		FAF9A32618A0A8B400FB81ED /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				FAF9A32718A0A8B400FB81ED /* RemoteSpotifyTests-Info.plist */,
-				FAF9A32818A0A8B400FB81ED /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -357,7 +328,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAF9A32A18A0A8B400FB81ED /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,7 +341,6 @@
 				FAF9A31318A0A8B400FB81ED /* main.m in Sources */,
 				FAE2B18918A1F02B0098A631 /* ASDMainViewController.m in Sources */,
 				FAF9A31718A0A8B400FB81ED /* ASDAppDelegate.m in Sources */,
-				FA1E469618A81CF900B75BD4 /* NSMutableArray_QueueAdditions.m in Sources */,
 				FA1E469918A821CF00B75BD4 /* NSMutableArray_Shuffling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,7 +349,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAF9A32C18A0A8B400FB81ED /* RemoteSpotifyTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,14 +372,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				FAF9A31018A0A8B400FB81ED /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		FAF9A32818A0A8B400FB81ED /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FAF9A32918A0A8B400FB81ED /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
