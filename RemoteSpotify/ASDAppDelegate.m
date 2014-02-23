@@ -13,6 +13,7 @@
 
 #define SP_LIBSPOTIFY_DEBUG_LOGGING 1
 
+// add your own appkey.c file!!!
 #include "appkey.c"
 
 @interface ASDAppDelegate ()
