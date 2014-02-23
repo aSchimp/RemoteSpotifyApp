@@ -57,6 +57,7 @@
     [self addObserver:self forKeyPath:@"playbackManager.currentTrack" options:0 context:nil];
     [self addObserver:self forKeyPath:@"playbackManager.isPlaying" options:0 context:nil];
     
+    // register for remote control events
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     [self becomeFirstResponder];
     
@@ -66,6 +67,7 @@
     return YES;
 }
 
+// this is necessary in order to become the first responder to remote control events
 - (BOOL)canBecomeFirstResponder {
     return YES;
 }
@@ -82,13 +84,15 @@
         case UIEventSubtypeRemoteControlPause:
             [self pausePlayback];
             songInfo = [NSMutableDictionary dictionaryWithDictionary:[[MPNowPlayingInfoCenter defaultCenter] nowPlayingInfo]];
-            [songInfo setObject:[NSNumber numberWithDouble:0.01] forKey:MPNowPlayingInfoPropertyPlaybackRate];
+            [songInfo setObject:[NSNumber numberWithDouble:0.0] forKey:MPNowPlayingInfoPropertyPlaybackRate];
+            [songInfo setObject:[NSNumber numberWithDouble:self.trackPosition] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
             [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
             break;
         case UIEventSubtypeRemoteControlPlay:
             [self resumePlayback];
             songInfo = [NSMutableDictionary dictionaryWithDictionary:[[MPNowPlayingInfoCenter defaultCenter] nowPlayingInfo]];
             [songInfo setObject:[NSNumber numberWithDouble:1.0] forKey:MPNowPlayingInfoPropertyPlaybackRate];
+            [songInfo setObject:[NSNumber numberWithDouble:self.trackPosition] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
             [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
             break;
         case UIEventSubtypeRemoteControlNextTrack:
@@ -177,6 +181,8 @@
                     }
                     else {
                         self.currentTrack = track;
+                        
+                        // set the "now playing" info if that feature is available
                         Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
                         if (playingInfoCenter) {
                             NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
