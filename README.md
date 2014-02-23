@@ -11,7 +11,7 @@ The app currently has the following features:
 Setup
 ===============
 
-After cloning the project, you must run `git submodule init` followed by `git submodule update` in order to download the cocoalibspotify dependency.
+After cloning the project, you must run `git submodule init` followed by `git submodule update` in order to download the cocoalibspotify dependency. You will also need to get an application key from https://developer.spotify.com/technologies/libspotify/, and put it into an appkey.c file in the RemoteSpotify directory.
 
 License
 ================
