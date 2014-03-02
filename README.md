@@ -1,7 +1,7 @@
 RemoteSpotifyApp
 ================
 
-A custom Spotify iOS app that allows remote control commands to be taken from a Bluetooth device. The Bluetooth capabilities are yet to be implemented.
+A custom Spotify iOS app that allows remote control commands to be taken from a Bluetooth device. The Bluetooth capabilities are functional, but there are some tweaks that need to be made to the UI.
 
 The app currently has the following features:
  - Play tracks from user playlists randomly
