@@ -9,8 +9,15 @@
 #import "ASDMainViewController.h"
 #import "ASDAppDelegate.h"
 #import "CocoaLibSpotify.h"
+#import "ScanViewController.h"
+#import "RfduinoManager.h"
 
 @interface ASDMainViewController ()
+{
+    RFduinoManager *rfduinoManager;
+    ScanViewController *scanViewController;
+    RFduino *currentRFduino;
+}
 
 @property (strong, nonatomic) NSArray *playlists;
 
@@ -23,6 +30,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        [[self navigationItem] setTitle:@"Remote Spotify"];
+        [self setupConnectBtn];
+        
+        rfduinoManager = RFduinoManager.sharedRFduinoManager;
     }
     return self;
 }
@@ -31,6 +42,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    rfduinoManager.delegate = self;
     
     [self.playbackManager addObserver:self forKeyPath:@"currentTrack.name" options:0 context:nil];
     [self.playbackManager addObserver:self forKeyPath:@"currentTrack.duration" options:0 context:nil];
@@ -154,4 +167,84 @@
         }];
     }];
 }
+
+- (void)didReceive:(NSData *)data {
+    if ([data length] > 0) {
+        const unsigned char *bytes = [data bytes];
+        NSLog(@"Received data: %d", (int)bytes[0]);
+        switch (bytes[0])
+        {
+            case 0:
+                [self.playbackManager nextTrack];
+                break;
+            case 1:
+                [self.playbackManager prevTrack];
+                break;
+        }
+    }
+}
+
+- (void)setupConnectBtn {
+    UIBarButtonItem *connectButton = [[UIBarButtonItem alloc] initWithTitle:@"Connect" style:UIBarButtonItemStylePlain target:self action:@selector(showScanView)];
+    [[self navigationItem] setRightBarButtonItem:connectButton];
+}
+
+- (void)setupDisconnectBtn {
+    UIBarButtonItem *connectButton = [[UIBarButtonItem alloc] initWithTitle:@"Disconnect" style:UIBarButtonItemStylePlain target:self action:@selector(disconnectRFduino)];
+    [[self navigationItem] setRightBarButtonItem:connectButton];
+}
+
+- (void) disconnectRFduino {
+    [currentRFduino disconnect];
+}
+
+- (void)showScanView {
+    scanViewController = [[ScanViewController alloc] init];
+    [[self navigationController] pushViewController:scanViewController animated:YES];
+}
+
+- (void)didDiscoverRFduino:(RFduino *)rfduino
+{
+    if (scanViewController != nil && [scanViewController respondsToSelector:@selector(didDiscoverRFduino:)])
+        [scanViewController didDiscoverRFduino:rfduino];
+}
+
+- (void)didUpdateDiscoveredRFduino:(RFduino *)rfduino
+{
+    if (scanViewController != nil && [scanViewController respondsToSelector:@selector(didUpdateDiscoveredRFduino:)])
+        [scanViewController didUpdateDiscoveredRFduino:rfduino];
+}
+
+- (void)didConnectRFduino:(RFduino *)rfduino
+{
+    NSLog(@"didConnectRFduino");
+    
+    if (scanViewController != nil && [scanViewController respondsToSelector:@selector(didConnectRFduino:)])
+        [scanViewController didConnectRFduino:rfduino];
+    
+    [rfduinoManager stopScan];
+}
+
+- (void)didLoadServiceRFduino:(RFduino *)rfduino
+{
+    if (scanViewController != nil && [scanViewController respondsToSelector:@selector(didLoadServiceRFduino:)])
+        [scanViewController didLoadServiceRFduino:rfduino];
+    
+    currentRFduino = rfduino;
+    currentRFduino.delegate = self;
+    [[self navigationController] popViewControllerAnimated:YES];
+    [self setupDisconnectBtn];
+}
+
+- (void)didDisconnectRFduino:(RFduino *)rfduino
+{
+    NSLog(@"didDisconnectRFduino");
+    
+    [rfduinoManager startScan];
+    if (scanViewController != nil && [scanViewController respondsToSelector:@selector(didDisconnectRFduino:)])
+        [scanViewController didDisconnectRFduino:rfduino];
+    [self setupConnectBtn];
+}
+
+
 @end

@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "ASDPlaybackManager.h"
 #import "CocoaLibSpotify.h"
+#import "RFduino.h"
+#import "RFduinoManagerDelegate.h"
 
-@interface ASDMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ASDMainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, RFduinoManagerDelegate, RFduinoDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *trackNameLabel;
 @property (strong, nonatomic) IBOutlet UISlider *trackPositionSlider;

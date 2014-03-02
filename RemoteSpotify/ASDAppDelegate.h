@@ -10,6 +10,8 @@
 #import "ASDMainViewController.h"
 #import "ASDPlaybackManager.h"
 #import "CocoaLibSpotify.h"
+#import "RFduino.h"
+#import "RFduinoManagerDelegate.h"
 
 @interface ASDAppDelegate : UIResponder <UIApplicationDelegate, ASDPlaybackManager, SPSessionDelegate>
 

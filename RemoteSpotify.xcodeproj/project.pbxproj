@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		FA1E469918A821CF00B75BD4 /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */; };
+		FA819DB018C2FBBB0027FD61 /* CustomCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = FA819DA618C2FBBB0027FD61 /* CustomCellBackground.m */; };
+		FA819DB118C2FBBB0027FD61 /* RFduino.m in Sources */ = {isa = PBXBuildFile; fileRef = FA819DA818C2FBBB0027FD61 /* RFduino.m */; };
+		FA819DB218C2FBBB0027FD61 /* RfduinoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA819DAB18C2FBBB0027FD61 /* RfduinoManager.m */; };
+		FA819DB318C2FBBB0027FD61 /* ScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA819DAE18C2FBBB0027FD61 /* ScanViewController.m */; };
 		FA892AAF18B993800037709A /* libCocoaLibSpotify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA892AAA18B992C90037709A /* libCocoaLibSpotify.a */; };
 		FAE2B17518A1EEF50098A631 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE2B17418A1EEF50098A631 /* SystemConfiguration.framework */; };
 		FAE2B17718A1EEFE0098A631 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE2B17618A1EEFE0098A631 /* CFNetwork.framework */; };
@@ -66,6 +70,16 @@
 		FA1E469118A6D26700B75BD4 /* ASDPlaybackManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASDPlaybackManager.h; sourceTree = "<group>"; };
 		FA1E469718A821CF00B75BD4 /* NSMutableArray_Shuffling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableArray_Shuffling.h; sourceTree = "<group>"; };
 		FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArray_Shuffling.m; sourceTree = "<group>"; };
+		FA819DA518C2FBBB0027FD61 /* CustomCellBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCellBackground.h; sourceTree = "<group>"; };
+		FA819DA618C2FBBB0027FD61 /* CustomCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCellBackground.m; sourceTree = "<group>"; };
+		FA819DA718C2FBBB0027FD61 /* RFduino.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFduino.h; sourceTree = "<group>"; };
+		FA819DA818C2FBBB0027FD61 /* RFduino.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFduino.m; sourceTree = "<group>"; };
+		FA819DA918C2FBBB0027FD61 /* RFduinoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFduinoDelegate.h; sourceTree = "<group>"; };
+		FA819DAA18C2FBBB0027FD61 /* RfduinoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RfduinoManager.h; sourceTree = "<group>"; };
+		FA819DAB18C2FBBB0027FD61 /* RfduinoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RfduinoManager.m; sourceTree = "<group>"; };
+		FA819DAC18C2FBBB0027FD61 /* RFduinoManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFduinoManagerDelegate.h; sourceTree = "<group>"; };
+		FA819DAD18C2FBBB0027FD61 /* ScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanViewController.h; sourceTree = "<group>"; };
+		FA819DAE18C2FBBB0027FD61 /* ScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanViewController.m; sourceTree = "<group>"; };
 		FAE2B17418A1EEF50098A631 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FAE2B17618A1EEFE0098A631 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FAE2B17818A1EF070098A631 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
@@ -135,6 +149,23 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		FA819DA218C2FBBB0027FD61 /* rfduino */ = {
+			isa = PBXGroup;
+			children = (
+				FA819DA518C2FBBB0027FD61 /* CustomCellBackground.h */,
+				FA819DA618C2FBBB0027FD61 /* CustomCellBackground.m */,
+				FA819DA718C2FBBB0027FD61 /* RFduino.h */,
+				FA819DA818C2FBBB0027FD61 /* RFduino.m */,
+				FA819DA918C2FBBB0027FD61 /* RFduinoDelegate.h */,
+				FA819DAA18C2FBBB0027FD61 /* RfduinoManager.h */,
+				FA819DAB18C2FBBB0027FD61 /* RfduinoManager.m */,
+				FA819DAC18C2FBBB0027FD61 /* RFduinoManagerDelegate.h */,
+				FA819DAD18C2FBBB0027FD61 /* ScanViewController.h */,
+				FA819DAE18C2FBBB0027FD61 /* ScanViewController.m */,
+			);
+			path = rfduino;
+			sourceTree = "<group>";
+		};
 		FA892AA518B992C90037709A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +216,7 @@
 		FAF9A30C18A0A8B400FB81ED /* RemoteSpotify */ = {
 			isa = PBXGroup;
 			children = (
+				FA819DA218C2FBBB0027FD61 /* rfduino */,
 				FA1E469318A81C1900B75BD4 /* Extensions */,
 				FAF9A31518A0A8B400FB81ED /* ASDAppDelegate.h */,
 				FAF9A31618A0A8B400FB81ED /* ASDAppDelegate.m */,
@@ -338,9 +370,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA819DB018C2FBBB0027FD61 /* CustomCellBackground.m in Sources */,
+				FA819DB318C2FBBB0027FD61 /* ScanViewController.m in Sources */,
+				FA819DB118C2FBBB0027FD61 /* RFduino.m in Sources */,
 				FAF9A31318A0A8B400FB81ED /* main.m in Sources */,
 				FAE2B18918A1F02B0098A631 /* ASDMainViewController.m in Sources */,
 				FAF9A31718A0A8B400FB81ED /* ASDAppDelegate.m in Sources */,
+				FA819DB218C2FBBB0027FD61 /* RfduinoManager.m in Sources */,
 				FA1E469918A821CF00B75BD4 /* NSMutableArray_Shuffling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

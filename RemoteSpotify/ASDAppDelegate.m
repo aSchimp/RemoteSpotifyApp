@@ -10,6 +10,7 @@
 #import <MediaPlayer/MPMediaItem.h>
 #import "ASDAppDelegate.h"
 #import "NSMutableArray_Shuffling.h"
+#import "RFduinoManager.h"
 
 #define SP_LIBSPOTIFY_DEBUG_LOGGING 1
 
@@ -17,6 +18,10 @@
 #include "appkey.c"
 
 @interface ASDAppDelegate ()
+{
+    RFduinoManager *rfduinoManager;
+    bool wasScanning;
+}
 @property (strong, nonatomic) SPPlaybackManager *playbackManager;
 @property (readwrite, strong, nonatomic) SPTrack *currentTrack;
 @property (readwrite, assign, nonatomic) NSTimeInterval trackPosition;
@@ -48,11 +53,18 @@
     
     // initialize playbackManager
     self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
-    
+
+    // rfduino
+    rfduinoManager = RFduinoManager.sharedRFduinoManager;
+
     // initialize main view
     self.mainViewController = [[ASDMainViewController alloc] init];
     self.mainViewController.playbackManager = self;
-    self.window.rootViewController = self.mainViewController;
+
+    // initialize nav controller
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.mainViewController];
+    [self.window setRootViewController:navController];
+    navController.navigationBar.tintColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
     
     [self addObserver:self forKeyPath:@"playbackManager.trackPosition" options:0 context:nil];
     [self addObserver:self forKeyPath:@"playbackManager.currentTrack" options:0 context:nil];
@@ -246,6 +258,13 @@
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+
+    wasScanning = false;
+
+    if (rfduinoManager.isScanning) {
+        wasScanning = true;
+        [rfduinoManager stopScan];
+    }
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -270,6 +289,11 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+
+    if (wasScanning) {
+        [rfduinoManager startScan];
+        wasScanning = false;
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
