@@ -10,9 +10,6 @@ the application.
 */
 
 #include <RFduinoBLE.h>
-#include "ButtonData.h"
-
-using namespace RemoteSpotify;
 
 // pin 2 on the RGB shield is the red led
 int ledRed = 2;
@@ -22,8 +19,8 @@ int ledGreen = 3;
 int ledBlue = 4;
 
 // pin 5 on the RGB shield is button 1
-// (button press will be shown on the iPhone app)
 int nextBtn = 5;
+// pin 6 on the RGB shield is button 2
 int prevBtn = 6;
 
 // debounce time (in ms)
@@ -32,7 +29,8 @@ int debounce_time = 10;
 // maximum debounce timeout (in ms)
 int debounce_timeout = 100;
 
-int nextBtnLastPressTime = -1;
+// keep track of the last time any button was pressed
+int lastBtnPressTime = -1;
 
 void setup() {
   Serial.begin(9600);
@@ -57,7 +55,6 @@ void setup() {
   
   // setup pinwake callbacks
   Serial.println("Configuring pinWake callbacks");
-  RFduino_pinWakeCallback(nextBtn, LOW, nextBtnPressed);
   RFduino_pinWakeCallback(nextBtn, HIGH, nextBtnPressed);
   RFduino_pinWakeCallback(prevBtn, HIGH, prevBtnPressed);
   
@@ -70,19 +67,13 @@ int nextBtnPressed(uint32_t ulPin)
   Serial.println("Entered button1 pinwake callback");
   if (debounce(ulPin, HIGH))
   {
-    nextBtnLastPressTime = millis();
+    lastBtnPressTime = millis();
     Serial.println("Sending button1 signal");
     RFduinoBLE.send(0);
     analogWrite(ledBlue, 100);
     delay(300);
     digitalWrite(ledBlue, LOW);
-  }
-  else if (debounce(ulPin, LOW))
-  {
-    if (nextBtnLastPressTime != -1 && millis() - nextBtnLastPressTime > 3000)
-      shutdown();
-      
-    nextBtnLastPressTime = -1;
+    return 1;
   }
   
   return 0;  // don't exit RFduino_ULPDelay
@@ -93,11 +84,13 @@ int prevBtnPressed(uint32_t ulPin)
   Serial.println("Entered button2 pinwake callback");
   if (debounce(ulPin, HIGH))
   {
+    lastBtnPressTime = millis();
     Serial.println("Sending button2 signal");
     RFduinoBLE.send(1);
     analogWrite(ledBlue, 100);
     delay(300);
     digitalWrite(ledBlue, LOW);
+    return 1;
   }
   
   return 0;  // don't exit RFduino_ULPDelay
@@ -130,8 +123,16 @@ void loop() {
   Serial.println("Leaving ULPDelay(INFINITE) in delay_until_button");
   
   // if somehow we came out of the ULPDelay, clear the pinWakes so that we can sleep again
-  RFduino_resetPinWake(nextBtn);
-  RFduino_resetPinWake(prevBtn);
+  if ((RFduino_pinWoke(nextBtn) && debounce(nextBtn, LOW)) || (RFduino_pinWoke(prevBtn) && debounce(prevBtn, LOW)))
+  {
+      lastBtnPressTime = -1;
+      RFduino_resetPinWake(nextBtn);
+      RFduino_resetPinWake(prevBtn);
+  }
+  
+  // if any button has been down for over 3 seconds, shut down
+  if (lastBtnPressTime != -1 && millis() - lastBtnPressTime > 3000)
+      shutdown();
 }
 
 void RFduinoBLE_onConnect() {
@@ -157,6 +158,8 @@ void shutdown()
     digitalWrite(ledRed, LOW);
   }
   
+  // this is so that the button release doesn't wake us up again
+  delay(3000);
   RFduino_systemOff();
 }
 
