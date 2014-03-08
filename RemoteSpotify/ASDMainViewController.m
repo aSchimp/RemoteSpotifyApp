@@ -33,6 +33,9 @@
         [[self navigationItem] setTitle:@"Remote Spotify"];
         [self setupConnectBtn];
         
+        // fixes navigation bar overlap
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+        
         rfduinoManager = RFduinoManager.sharedRFduinoManager;
     }
     return self;
