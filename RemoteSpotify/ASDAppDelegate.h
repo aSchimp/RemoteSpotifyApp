@@ -13,7 +13,7 @@
 #import "RFduino.h"
 #import "RFduinoManagerDelegate.h"
 
-@interface ASDAppDelegate : UIResponder <UIApplicationDelegate, ASDPlaybackManager, SPSessionDelegate>
+@interface ASDAppDelegate : UIResponder <UIApplicationDelegate, SPSessionDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) ASDMainViewController *mainViewController;

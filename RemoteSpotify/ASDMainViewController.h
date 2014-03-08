@@ -19,7 +19,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *playlistTableView;
 @property (strong, nonatomic) IBOutlet UIButton *playPauseButton;
 
-@property (strong, nonatomic) NSObject <ASDPlaybackManager> *playbackManager;
+@property (strong, nonatomic) ASDPlaybackManager *playbackManager;
 
 - (IBAction)trackPositionSliderChanged:(id)sender;
 - (IBAction)playPauseClick:(id)sender;

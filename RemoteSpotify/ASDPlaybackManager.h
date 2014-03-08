@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "CocoaLibSpotify.h"
 
-@protocol ASDPlaybackManager <NSObject>
+@interface ASDPlaybackManager : NSObject
 
 @property (readonly, strong, nonatomic) SPTrack *currentTrack;
 @property (readonly, assign, nonatomic) NSTimeInterval trackPosition;

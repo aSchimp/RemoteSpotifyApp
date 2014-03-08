@@ -9,7 +9,6 @@
 #import <MediaPlayer/MPNowPlayingInfoCenter.h>
 #import <MediaPlayer/MPMediaItem.h>
 #import "ASDAppDelegate.h"
-#import "NSMutableArray_Shuffling.h"
 #import "RFduinoManager.h"
 
 #define SP_LIBSPOTIFY_DEBUG_LOGGING 1
@@ -17,26 +16,15 @@
 // add your own appkey.c file!!!
 #include "appkey.c"
 
-@interface ASDAppDelegate ()
+@implementation ASDAppDelegate
 {
     RFduinoManager *rfduinoManager;
     bool wasScanning;
+    ASDPlaybackManager *playbackManager;
 }
-@property (strong, nonatomic) SPPlaybackManager *playbackManager;
-@property (readwrite, strong, nonatomic) SPTrack *currentTrack;
-@property (readwrite, assign, nonatomic) NSTimeInterval trackPosition;
-@property (readwrite, assign, nonatomic) BOOL isPlaying;
-@property (strong, nonatomic) SPPlaylist *currentPlaylist;
-@property (strong, nonatomic) NSMutableArray *playlistTrackQueue;
-@property (assign, nonatomic) int playlistTrackQueueIndex;
-@end
-
-@implementation ASDAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.isPlaying = NO;
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
@@ -50,31 +38,27 @@
     if (error != nil) {
         NSLog(@"CocoaLibSpotify init failed: %@", error);
     }
-    
-    // initialize playbackManager
-    self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
 
     // rfduino
     rfduinoManager = RFduinoManager.sharedRFduinoManager;
+    
+    // initialize playbackManager
+    playbackManager = [[ASDPlaybackManager alloc] init];
 
     // initialize main view
     self.mainViewController = [[ASDMainViewController alloc] init];
-    self.mainViewController.playbackManager = self;
+    self.mainViewController.playbackManager = playbackManager;
 
     // initialize nav controller
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.mainViewController];
     [self.window setRootViewController:navController];
     navController.navigationBar.tintColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
     
-    [self addObserver:self forKeyPath:@"playbackManager.trackPosition" options:0 context:nil];
-    [self addObserver:self forKeyPath:@"playbackManager.currentTrack" options:0 context:nil];
-    [self addObserver:self forKeyPath:@"playbackManager.isPlaying" options:0 context:nil];
-    
     // register for remote control events
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     [self becomeFirstResponder];
     
-    // login
+    // login to spotify
     [self performSelector:@selector(attemptLogin) withObject:nil afterDelay:0.0];
     
     return YES;
@@ -89,52 +73,33 @@
     NSMutableDictionary *songInfo;
     switch (event.subtype) {
         case UIEventSubtypeRemoteControlTogglePlayPause:
-            if ([self isPlaying])
-                [self pausePlayback];
+            if ([playbackManager isPlaying])
+                [playbackManager pausePlayback];
             else
-                [self resumePlayback];
+                [playbackManager resumePlayback];
             break;
         case UIEventSubtypeRemoteControlPause:
-            [self pausePlayback];
+            [playbackManager pausePlayback];
             songInfo = [NSMutableDictionary dictionaryWithDictionary:[[MPNowPlayingInfoCenter defaultCenter] nowPlayingInfo]];
             [songInfo setObject:[NSNumber numberWithDouble:0.0] forKey:MPNowPlayingInfoPropertyPlaybackRate];
-            [songInfo setObject:[NSNumber numberWithDouble:self.trackPosition] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
+            [songInfo setObject:[NSNumber numberWithDouble:playbackManager.trackPosition] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
             [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
             break;
         case UIEventSubtypeRemoteControlPlay:
-            [self resumePlayback];
+            [playbackManager resumePlayback];
             songInfo = [NSMutableDictionary dictionaryWithDictionary:[[MPNowPlayingInfoCenter defaultCenter] nowPlayingInfo]];
             [songInfo setObject:[NSNumber numberWithDouble:1.0] forKey:MPNowPlayingInfoPropertyPlaybackRate];
-            [songInfo setObject:[NSNumber numberWithDouble:self.trackPosition] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
+            [songInfo setObject:[NSNumber numberWithDouble:playbackManager.trackPosition] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
             [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
             break;
         case UIEventSubtypeRemoteControlNextTrack:
-            [self nextTrack];
+            [playbackManager nextTrack];
             break;
         case UIEventSubtypeRemoteControlPreviousTrack:
-            [self prevTrack];
+            [playbackManager prevTrack];
             break;
         default:
             break;
-    }
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"playbackManager.trackPosition"]) {
-        self.trackPosition = self.playbackManager.trackPosition;
-    }
-    else if ([keyPath isEqualToString:@"playbackManager.currentTrack"]) {
-        // current track has ended... play the next track
-        if (self.playbackManager.currentTrack == nil) {
-            [self nextTrack];
-        }
-    }
-    else if ([keyPath isEqualToString:@"playbackManager.isPlaying"]) {
-        self.isPlaying = [self.playbackManager isPlaying];
-    }
-    else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 
@@ -180,78 +145,6 @@
     [SPAsyncLoading waitUntilLoaded:aSession timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
         [self.mainViewController refreshView];
     }];
-}
-
-- (void)playTrack:(NSURL *)trackUrl {
-    [[SPSession sharedSession] trackForURL:trackUrl callback:^(SPTrack *track) {
-        if (track != nil) {
-            [SPAsyncLoading waitUntilLoaded:track timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
-                [self.playbackManager playTrack:track callback:^(NSError *error) {
-                    if (error) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Cannot Play Track" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                        
-                        [alert show];
-                    }
-                    else {
-                        self.currentTrack = track;
-                        
-                        // set the "now playing" info if that feature is available
-                        Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
-                        if (playingInfoCenter) {
-                            NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
-                            [songInfo setObject:track.name forKey:MPMediaItemPropertyTitle];
-                            [songInfo setObject:track.album.name forKey:MPMediaItemPropertyAlbumTitle];
-                            [songInfo setObject:[NSNumber numberWithDouble:track.duration] forKey:MPMediaItemPropertyPlaybackDuration];
-                            [songInfo setObject:[NSNumber numberWithDouble:self.playbackManager.trackPosition] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
-                            [songInfo setObject:[NSNumber numberWithDouble:1.0] forKey:MPNowPlayingInfoPropertyPlaybackRate];
-                            [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
-                        }
-                    }
-                }];
-            }];
-        }
-    }];
-}
-
-- (void)updateTrackPosition:(NSTimeInterval) position {
-    [self.playbackManager seekToTrackPosition:position];
-}
-
-- (void)playPlaylist:(SPPlaylist *)playlist {
-    [SPAsyncLoading waitUntilLoaded:playlist timeout:kSPAsyncLoadingDefaultTimeout then:^(NSArray *loadedItems, NSArray *notLoadedItems) {
-        self.currentPlaylist = playlist;
-        self.playlistTrackQueue = [NSMutableArray arrayWithArray:[playlist items]];
-        [self.playlistTrackQueue shuffle];
-        self.playlistTrackQueueIndex = 0;
-        SPPlaylistItem *item = [self.playlistTrackQueue objectAtIndex:0];
-        [self playTrack:[item itemURL]];
-    }];
-}
-
-- (void)nextTrack {
-    if (self.currentPlaylist != nil && self.playlistTrackQueue != nil
-        && self.playlistTrackQueueIndex < [self.playlistTrackQueue count]) {
-        self.playlistTrackQueueIndex++;
-        SPPlaylistItem *item = [self.playlistTrackQueue objectAtIndex:self.playlistTrackQueueIndex];
-        [self playTrack:[item itemURL]];
-    }
-}
-
-- (void)prevTrack {
-    if (self.currentPlaylist != nil && self.playlistTrackQueue != nil
-        && self.playlistTrackQueueIndex > 0 && [self.playlistTrackQueue count] > 0) {
-        self.playlistTrackQueueIndex--;
-        SPPlaylistItem *item = [self.playlistTrackQueue objectAtIndex:self.playlistTrackQueueIndex];
-        [self playTrack:[item itemURL]];
-    }
-}
-
-- (void)pausePlayback {
-    [self.playbackManager setIsPlaying:NO];
-}
-
-- (void)resumePlayback {
-    [self.playbackManager setIsPlaying:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

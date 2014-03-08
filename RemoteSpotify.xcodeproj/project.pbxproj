@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FA1E469918A821CF00B75BD4 /* NSMutableArray_Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */; };
+		FA51DD9A18CBB28D00F9FA37 /* ASDPlaybackManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA51DD9918CBB28D00F9FA37 /* ASDPlaybackManager.m */; };
 		FA819DB018C2FBBB0027FD61 /* CustomCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = FA819DA618C2FBBB0027FD61 /* CustomCellBackground.m */; };
 		FA819DB118C2FBBB0027FD61 /* RFduino.m in Sources */ = {isa = PBXBuildFile; fileRef = FA819DA818C2FBBB0027FD61 /* RFduino.m */; };
 		FA819DB218C2FBBB0027FD61 /* RfduinoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA819DAB18C2FBBB0027FD61 /* RfduinoManager.m */; };
@@ -70,6 +71,7 @@
 		FA1E469118A6D26700B75BD4 /* ASDPlaybackManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASDPlaybackManager.h; sourceTree = "<group>"; };
 		FA1E469718A821CF00B75BD4 /* NSMutableArray_Shuffling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableArray_Shuffling.h; sourceTree = "<group>"; };
 		FA1E469818A821CF00B75BD4 /* NSMutableArray_Shuffling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArray_Shuffling.m; sourceTree = "<group>"; };
+		FA51DD9918CBB28D00F9FA37 /* ASDPlaybackManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASDPlaybackManager.m; sourceTree = "<group>"; };
 		FA819DA518C2FBBB0027FD61 /* CustomCellBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCellBackground.h; sourceTree = "<group>"; };
 		FA819DA618C2FBBB0027FD61 /* CustomCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCellBackground.m; sourceTree = "<group>"; };
 		FA819DA718C2FBBB0027FD61 /* RFduino.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFduino.h; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				FAE2B18818A1F02B0098A631 /* ASDMainViewController.xib */,
 				FAE2B18B18A1F1940098A631 /* appkey.c */,
 				FA1E469118A6D26700B75BD4 /* ASDPlaybackManager.h */,
+				FA51DD9918CBB28D00F9FA37 /* ASDPlaybackManager.m */,
 			);
 			path = RemoteSpotify;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				FAE2B18918A1F02B0098A631 /* ASDMainViewController.m in Sources */,
 				FAF9A31718A0A8B400FB81ED /* ASDAppDelegate.m in Sources */,
 				FA819DB218C2FBBB0027FD61 /* RfduinoManager.m in Sources */,
+				FA51DD9A18CBB28D00F9FA37 /* ASDPlaybackManager.m in Sources */,
 				FA1E469918A821CF00B75BD4 /* NSMutableArray_Shuffling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
