@@ -19,10 +19,10 @@ After cloning the project, you must run `git submodule init` followed by `git su
 After installing the necessary software to program the RFduino and ensuring that the Arduino IDE is configured properly as detailed [here](https://github.com/RFduino/RFduino), open the /RFDuinoSketches/Remote/Remote.ino sketch and upload it onto the RFduino.
 
 ##### Parts
- - [RFduino](http://www.rfduino.com/rfd22102-rfduino.html)
- - [RGB Pushbutton Shield](http://www.rfduino.com/rfd22122-rgb-pushbutton-shield-accessory-board.html)
- - [USB Shield (required for programming)](http://www.rfduino.com/rfd22121-usb-shield-accessory-board.html)
- - [CR2032 Coin Battery Shield (optional - for use when not powered by the USB Shield)](http://www.rfduino.com/rfd22128-cr2032-coin-battery-shield-accessory-board.html)
+ - [RFduino](http://www.rfduino.com/product/rfd22102-rfduino-dip/)
+ - [RGB Pushbutton Shield](http://www.rfduino.com/product/rfd22122-rgb-button-shield-for-rfduino/)
+ - [USB Shield (required for programming)](http://www.rfduino.com/product/rfd22121-usb-shield-for-rfduino/)
+ - [CR2032 Coin Battery Shield (optional - for use when not powered by the USB Shield)](http://www.rfduino.com/product/rfd22128-cr2032-coin-battery-shield-for-rfduino/)
 
 License
 ================
